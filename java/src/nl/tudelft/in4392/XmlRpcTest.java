@@ -18,7 +18,7 @@ public class XmlRpcTest {
             config.setServerURL(new URL("http://localhost:2633/RPC2"));
         } catch (MalformedURLException e) {
             String msg = String.format(
-                    "Invalid URL for XML-RPC server. Message=%s.",
+                    "Invalid URL for XML-RPC server. Message=%name.",
                     e.getMessage()
             );
         }
@@ -40,7 +40,7 @@ public class XmlRpcTest {
             if (successful) {
                 System.out.println(result[1]);
             } else {
-                System.out.printf("Execution failed. ErrorCode=%d. Message=%s.\n", (Integer) result[2], (String) result[1]);
+                System.out.printf("Execution failed. ErrorCode=%d. Message=%name.\n", (Integer) result[2], (String) result[1]);
             }
         }
     }
