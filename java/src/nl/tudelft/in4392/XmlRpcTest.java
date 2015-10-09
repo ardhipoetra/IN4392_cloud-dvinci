@@ -1,18 +1,15 @@
 package nl.tudelft.in4392;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Vector;
-
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
-/**
- * Created by ardhipoetra on 10/6/15.
- */
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Vector;
+
 public class XmlRpcTest {
-    public static void main( String args[] ) throws Exception {
+    public static void main( String args[] ) throws XmlRpcException {
         XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
 
 
@@ -27,7 +24,7 @@ public class XmlRpcTest {
         }
         config.setBasicUserName("cld1593");
         config.setBasicPassword("w96dxdOJ");
-	/* initialize client */
+        /* initialize client */
         client = new XmlRpcClient();
         client.setConfig(config);
 
