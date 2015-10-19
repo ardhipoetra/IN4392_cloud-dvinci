@@ -11,8 +11,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.Collections;
+
 public class ParseKnownXMLStructure {
+	//create vm array to store VMs informations
 	ArrayList<vm> vmArr;
+    static ArrayList memArr = new ArrayList();
+	//public static double[] memArr;
+	
 	public static void main(String[] args) throws Exception {
 		//Get Docuemnt Builder
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -26,32 +32,80 @@ public class ParseKnownXMLStructure {
 		 
 		//Here comes the root node
 		Element root = document.getDocumentElement();
-		//System.out.println("root atas : "+root.getNodeName());
 		 
 		//Get all employees
 		NodeList nList = document.getElementsByTagName("VM");
-		//System.out.println("============================");
 		
-		//storing VM objects to array
+		//storing VM objects to array (hedi)
 		ArrayList<vm> vmArr = new ArrayList<vm>();
 				
 		//iterating through the XML file
 		for (int temp = 0; temp < nList.getLength(); temp++)
 		{
 		 Node node = nList.item(temp);
-		 //System.out.println("");    //Just a separator
 		 if (node.getNodeType() == Node.ELEMENT_NODE)
 		 {
 		    Element eElement = (Element) node;
-		    //vms.newInstance(eElement.getElementsByTagName("ID"),eElement.getElementsByTagName("IP"));
-		    //Integer.parseInt(s)eElement.getElementsByTagName("IP").item(0).getTextContent();
-		    vm vm1 = new vm(eElement.getElementsByTagName("ID").item(0).getTextContent(), eElement.getElementsByTagName("IP").item(0).getTextContent());
-			//vm1.checkmem();
-		    vmArr.add(new vm(eElement.getElementsByTagName("ID").item(0).getTextContent(), eElement.getElementsByTagName("IP").item(0).getTextContent()));
+		    //insert vm info from xml file to vmArr (hedi)
+		    vmArr.add(new vm(eElement.getElementsByTagName("ID").item(0).getTextContent(), eElement.getElementsByTagName("IP").item(0).getTextContent(),0,0));
 		 }
 		}
 
 		System.out.println("VMs count: " + vmArr.size());
-		vmArr.get(1).checkmem();
+		
+		long start_time = System.nanoTime();
+
+        for(int i=0; i<vmArr.size(); i++){
+        	double usedMem=vmArr.get(i).checkmem();
+        	double usedCpu=vmArr.get(i).checkcpu();
+        	System.out.println("Used Memory VM" + i+ ": "+usedMem+" %");
+        	vmArr.get(i).mem=usedMem;
+        	vmArr.get(i).cpu=usedCpu;
+        	System.out.println("Used CPU VM" + i+ ": "+usedCpu+" %\n");    		
+    		//vmArr.get(0).checkproc();
+            //System.out.println("Count is: " + i;
+        }
+      
+		long end_time = System.nanoTime();	double difference = (end_time - start_time)/1e6;
+		System.out.println("Execution time: "+difference+" ms");
+		
+		
+		//====================================================
+		//checking VM pool resource regularly
+		//if used resource is more than 70%, create new VM
+		//iterating from highest index VM
+		//====================================================
+        for(int i=vmArr.size()-1; i>0; i--){
+        	if (vmArr.get(i).mem>70) {
+        		System.out.println("create new VM");
+        	}
+    		if (vmArr.get(i).mem<20) {
+    			System.out.println("remove this VM");
+    		}
+        }
+		
+		//====================================================
+		//accepting new job
+        //iterating from lowest VM index (VM0) to see if it's below 70%
+        //if yes submit. if there is no VM below 70, create new VM then submit
+		//====================================================
+        for(int i=0; i<vmArr.size()-1; i++){
+        	if (vmArr.get(i).mem<70) {
+        		System.out.println("less than 70%, submit job");
+                break;
+        	}
+        	System.out.println("no VM less than 70%, create new VM");
+        }
+
+		//====================================================
+		//checking VM pool resource regularly (different method from above)
+		//minIndex=least used VM
+		//====================================================
+        for(int i=0; i<vmArr.size(); i++){
+        	memArr.add(i,vmArr.get(i).mem);
+        }
+    	int minIndex = memArr.indexOf(Collections.min(memArr));
+    	System.out.println("VM with most free resource:" +minIndex);
+		
 	}
 }

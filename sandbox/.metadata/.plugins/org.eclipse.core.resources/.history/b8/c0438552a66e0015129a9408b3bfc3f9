@@ -1,6 +1,6 @@
 <VM_POOL>
     <VM>
-        <ID>40884</ID>
+        <ID>40871</ID>
         <UID>415</UID>
         <GID>1</GID>
         <UNAME>cld1593</UNAME>
@@ -31,7 +31,7 @@
         <TEMPLATE>
             <CONTEXT>
                 <DISK_ID><![CDATA[1]]></DISK_ID>
-                <DNS><![CDATA[10.141.3.254]]></DNS>
+                <DNS><![CDATA[10.141.3.153]]></DNS>
                 <FILES><![CDATA[/cm/shared/package/OpenNebula/current/srv/cloud/configs/centos-5/init.sh /cm/shared/package/OpenNebula/current/srv/cloud/configs/id_dsa.pub]]></FILES>
                 <GATEWAY><![CDATA[10.141.3.254]]></GATEWAY>
                 <HOSTNAME><![CDATA[Centos5-disk]]></HOSTNAME>
@@ -64,7 +64,7 @@
             <NAME><![CDATA[Centos5-disk]]></NAME>
             <NIC>
                 <BRIDGE><![CDATA[br0]]></BRIDGE>
-                <IP><![CDATA[131.180.125.24]]></IP>
+                <IP><![CDATA[10.141.3.164]]></IP>
                 <MAC><![CDATA[02:00:0a:8d:03:a4]]></MAC>
                 <NETWORK><![CDATA[Small network]]></NETWORK>
                 <NETWORK_ID><![CDATA[0]]></NETWORK_ID>
@@ -103,7 +103,7 @@
         </HISTORY_RECORDS>
     </VM>
     <VM>
-        <ID>40885</ID>
+        <ID>40872</ID>
         <UID>415</UID>
         <GID>1</GID>
         <UNAME>cld1593</UNAME>
@@ -134,7 +134,7 @@
         <TEMPLATE>
             <CONTEXT>
                 <DISK_ID><![CDATA[1]]></DISK_ID>
-                <DNS><![CDATA[10.141.3.254]]></DNS>
+                <DNS><![CDATA[10.141.3.154]]></DNS>
                 <FILES><![CDATA[/cm/shared/package/OpenNebula/current/srv/cloud/configs/centos-5/init.sh /cm/shared/package/OpenNebula/current/srv/cloud/configs/id_dsa.pub]]></FILES>
                 <GATEWAY><![CDATA[10.141.3.254]]></GATEWAY>
                 <HOSTNAME><![CDATA[Centos5-disk]]></HOSTNAME>
@@ -167,7 +167,7 @@
             <NAME><![CDATA[Centos5-disk]]></NAME>
             <NIC>
                 <BRIDGE><![CDATA[br0]]></BRIDGE>
-                <IP><![CDATA[131.180.125.24]]></IP>
+                <IP><![CDATA[10.141.3.154]]></IP>
                 <MAC><![CDATA[02:00:0a:8d:03:a5]]></MAC>
                 <NETWORK><![CDATA[Small network]]></NETWORK>
                 <NETWORK_ID><![CDATA[0]]></NETWORK_ID>

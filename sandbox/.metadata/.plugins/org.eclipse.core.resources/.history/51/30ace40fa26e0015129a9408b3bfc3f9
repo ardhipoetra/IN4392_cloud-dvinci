@@ -64,7 +64,7 @@
             <NAME><![CDATA[Centos5-disk]]></NAME>
             <NIC>
                 <BRIDGE><![CDATA[br0]]></BRIDGE>
-                <IP><![CDATA[131.180.125.24]]></IP>
+                <IP><![CDATA[10.141.3.164]]></IP>
                 <MAC><![CDATA[02:00:0a:8d:03:a4]]></MAC>
                 <NETWORK><![CDATA[Small network]]></NETWORK>
                 <NETWORK_ID><![CDATA[0]]></NETWORK_ID>
@@ -167,7 +167,7 @@
             <NAME><![CDATA[Centos5-disk]]></NAME>
             <NIC>
                 <BRIDGE><![CDATA[br0]]></BRIDGE>
-                <IP><![CDATA[131.180.125.24]]></IP>
+                <IP><![CDATA[10.141.3.165]]></IP>
                 <MAC><![CDATA[02:00:0a:8d:03:a5]]></MAC>
                 <NETWORK><![CDATA[Small network]]></NETWORK>
                 <NETWORK_ID><![CDATA[0]]></NETWORK_ID>
