@@ -1,12 +1,11 @@
 package nl.tudelft.in4392.server;
 
-import cabbott.net.SSHManager;
 import nl.tudelft.in4392.Constants;
 import nl.tudelft.in4392.Utility;
 import nl.tudelft.in4392.manager.JobManager;
 import nl.tudelft.in4392.manager.VMmanager;
 import nl.tudelft.in4392.model.Job;
-import org.opennebula.client.vm.VirtualMachine;
+import nl.tudelft.in4392.model.VinciVM;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -19,10 +18,10 @@ import java.util.Iterator;
  */
 public class CDvinci extends UnicastRemoteObject implements _CDvinci {
 
-    public HashMap<String, ArrayList<Job>> jobList;
+    public HashMap<String, ArrayList<Job>> jobUserMap;
 
     public CDvinci() throws Exception{
-        jobList = new HashMap<String, ArrayList<Job>>();
+        jobUserMap = new HashMap<String, ArrayList<Job>>();
     }
 
     @Override
@@ -31,11 +30,11 @@ public class CDvinci extends UnicastRemoteObject implements _CDvinci {
 
         ArrayList<Job> jarlist;
 
-        if(jobList.get(userID) == null) {
+        if(jobUserMap.get(userID) == null) {
             jarlist = new ArrayList<Job>();
-            jobList.put(userID, jarlist);
+            jobUserMap.put(userID, jarlist);
         } else
-            jarlist = jobList.get(userID);
+            jarlist = jobUserMap.get(userID);
 
         jarlist.add(j);
 
@@ -52,13 +51,13 @@ public class CDvinci extends UnicastRemoteObject implements _CDvinci {
         if (userID.equals(Constants.TEST_ADMIN)) {
 
             int totalJobs = 0;
-            for(String ukey : jobList.keySet()) {
+            for(String ukey : jobUserMap.keySet()) {
                 totalJobs += getTotalJobs(ukey);
             }
             return totalJobs;
         }
 
-        return jobList.get(userID) == null ? 0 : jobList.get(userID).size();
+        return jobUserMap.get(userID) == null ? 0 : jobUserMap.get(userID).size();
     }
 
 
@@ -76,14 +75,14 @@ public class CDvinci extends UnicastRemoteObject implements _CDvinci {
 
         if (userID.equals(Constants.TEST_ADMIN)) {
 
-            for(String ukey : jobList.keySet()) {
+            for(String ukey : jobUserMap.keySet()) {
                 System.out.println("uid "+ukey);
                 printJobs(ukey);
             }
             return ;
         }
 
-        Iterator<Job> iterator = this.jobList.get(userID).iterator();
+        Iterator<Job> iterator = this.jobUserMap.get(userID).iterator();
 
         while(iterator.hasNext()) {
             Job js = iterator.next();
@@ -94,7 +93,46 @@ public class CDvinci extends UnicastRemoteObject implements _CDvinci {
 
     @Override
     public int call(String userID, String command) throws RemoteException {
-        Utility.callSSH(Constants.TEST_TARGET_SSH, command);
+
+        String returnCallResult = "";
+        try {
+
+
+            if(command.equalsIgnoreCase("showvms")) {
+                System.out.println("show vms");
+                returnCallResult = VMmanager.showAllVms();
+            } else if(command.startsWith("checkmem")) {
+                String id = command.split(" ")[1];
+
+                System.out.println("check mem id : "+id);
+                VinciVM vm = VMmanager.getVM(Integer.parseInt(id));
+
+                Utility.callSSH(vm.hostname, vm.checkMemComm());
+
+                returnCallResult = "success";
+
+            } else if(command.startsWith("checkcpu")) {
+                String id = command.split(" ")[1];
+
+                System.out.println("check cpu id : "+id);
+                VinciVM vm = VMmanager.getVM(Integer.parseInt(id));
+
+                Utility.callSSH(vm.hostname, vm.checkCpuComm());
+
+                returnCallResult = "success";
+
+            }else {
+                System.out.println("call default SSH command");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        if (returnCallResult.equals(""))
+            Utility.callSSH(Constants.TEST_TARGET_SSH, command);
+        else
+            System.out.println("out : \n"+returnCallResult);
         return 0;
     }
 }

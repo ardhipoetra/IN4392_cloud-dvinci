@@ -1,16 +1,16 @@
 package nl.tudelft.in4392.client;
 
+import nl.tudelft.in4392.Constants;
+import nl.tudelft.in4392.model.Job;
+import nl.tudelft.in4392.model.Task;
+import nl.tudelft.in4392.server._CDvinci;
+
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import nl.tudelft.in4392.Constants;
-import nl.tudelft.in4392.model.Job;
-import nl.tudelft.in4392.model.Task;
-import nl.tudelft.in4392.server._CDvinci;
 
 /**
  * Created by ardhipoetra on 10/6/15.
@@ -60,7 +60,7 @@ public class Generator {
                         Job jj = new Job("name"+numJobsRun, "URI:" + numJobsRun);
                         try {
                             jj.id = new Random().nextInt() + numJobsRun;
-                            jj.addTask(new Task(Task.TASK_COMPOSITE+"-"+numJobsRun));
+                            jj.addTask(new Task(Task.TASK_ROTATE+"-"+numJobsRun));
                             jj.addTask(new Task(Task.TASK_RESIZE+"-"+numJobsRun));
 
                             System.out.println("job id "+jj.id+" created");

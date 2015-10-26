@@ -5,7 +5,6 @@ import nl.tudelft.in4392.server._CDvinci;
 
 import java.rmi.Naming;
 import java.util.Scanner;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by ardhipoetra on 10/6/15.

@@ -5,8 +5,6 @@ import nl.tudelft.in4392.Utility;
 import nl.tudelft.in4392.model.Job;
 import org.opennebula.client.vm.VirtualMachine;
 
-import javax.rmi.CORBA.Util;
-
 /**
  * Created by ardhipoetra on 10/9/15.
  */
@@ -20,6 +18,8 @@ public class JobManager {
         String hname = Constants.TEST_TARGET_SSH;
 
         Utility.callSSH(hname, "echo \"`hostname` "+jj.id+" "+jj.tasks.get(0).action+"\"");
+
+        // return success for now
         return 0;
     }
 }
