@@ -17,7 +17,7 @@ public class JobManager {
         // find IP/hostname of vmTarget
         String hname = Constants.TEST_TARGET_SSH;
 
-        Utility.callSSH(hname, "echo \"`hostname` "+jj.id+" "+jj.tasks.get(0).action+"\"");
+        Utility.callSSH(hname, "cd /home/cld1593/cloud-dvinci/java/out; "+jj.getCommands());
 
         // return success for now
         return 0;

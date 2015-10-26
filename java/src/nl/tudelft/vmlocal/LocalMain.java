@@ -11,6 +11,9 @@ public class LocalMain {
         System.out.println(test);
         int i = 3;
 
+        //tmp
+        cn.rotate(args[i]);
+
 //        if ("-convert") :
 //        try {
 //            cn.ModifyExtension(args[i]);

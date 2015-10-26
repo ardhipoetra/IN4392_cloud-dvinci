@@ -19,6 +19,8 @@ public class Utility {
         SSHManager instance = new SSHManager(target, Constants.SSH_KNOWN_HOSTS);
         String errorMessage = instance.connect();
 
+        System.out.println(command);
+
         if(errorMessage != null)
         {
             System.out.println(errorMessage);

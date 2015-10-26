@@ -21,6 +21,7 @@ public class Job implements Serializable{
     public int id;
     public String name;
     public String URI;
+    public String uid;
 
     private String filename;
     private String extension;
@@ -31,11 +32,16 @@ public class Job implements Serializable{
 
     public ArrayList<Task> tasks;
 
-	public Job(String name, String URI) {
+	public Job(String name, String URI, String uid) {
 		this.name = name;
         this.URI = URI;
         tasks = new ArrayList<Task>();
+        this.uid = uid;
 	}
+
+    public void setDestPath(String dpath) {
+        destfile = dpath;
+    }
 
     public Job() {this.name = "temp";}
 
@@ -90,12 +96,20 @@ public class Job implements Serializable{
              st += "(T : "+t.action+")";
         }
 
-        return String.format("The job(%s) [%d] : %s %s", name, status, URI, st);
+        return String.format("The job(%s) [%d] by %s: %s %s", name, status, uid, URI, st);
     }
 
     public void addTask(Task t) {this.tasks.add(t);}
 
-    public void execute() {
+    public String getCommands() {
+        String cmd = "java -cp .:../lib/* nl.tudelft.vmlocal.LocalMain";
 
+        cmd += " "+this.URI+" "+this.destfile;
+
+        for(Task t : tasks) {
+            cmd += " "+t.generateParam();
+        }
+
+        return cmd;
     }
 }

@@ -1,6 +1,7 @@
 package nl.tudelft.in4392.client;
 
 import nl.tudelft.in4392.Constants;
+import nl.tudelft.in4392.manager.VMmanager;
 import nl.tudelft.in4392.server._CDvinci;
 
 import java.rmi.Naming;

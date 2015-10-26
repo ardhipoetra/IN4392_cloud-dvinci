@@ -62,6 +62,7 @@ public class VMmanager {
 
         System.out.println("The new VM " + vm.getName() + " has status: " + vm.status());
 
+        vmList.put(newVMID, vm);
         return vm;
     }
 
@@ -69,12 +70,23 @@ public class VMmanager {
         return vmList.get(id);
     }
 
-    public static OneResponse deleteVM(VirtualMachine vm) {
-        return null;
+    public static OneResponse deleteVM(VinciVM vm) {
+        vmList.remove(vm.id());
+
+        OneResponse or = vm.finalizeVM();
+
+
+        return or;
     }
 
-    public static String showVMInfo(VirtualMachine vm) {
-        return "";
+    public static String showVMInfo(VinciVM vm) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID : ");
+        sb.append(vm.id());
+        sb.append('\n');
+        sb.append(vm.info().getMessage());
+
+        return sb.toString();
     }
 
     public static String showAllVms() throws Exception {
@@ -115,7 +127,7 @@ public class VMmanager {
     }
 
     public static VirtualMachine getAvailableVM() {
-        return new VirtualMachine(40885, c);
+        return new VirtualMachine(40911, c);
     }
 
 
@@ -149,6 +161,8 @@ public class VMmanager {
         ret.setXmlData(s);
 
         vmList.put(ret.id, ret);
+
+        System.out.println("parsed : "+ret.id);
         return ret;
     }
 }

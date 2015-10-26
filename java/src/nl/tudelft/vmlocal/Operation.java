@@ -107,6 +107,7 @@ public class Operation {
     }
 
     public void rotate(String param) {
+        System.out.println("rotating : "+param);
         im.rotate(Double.parseDouble(param));
     }
 

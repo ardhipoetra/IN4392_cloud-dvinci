@@ -35,7 +35,7 @@ public class Task implements Serializable{
     }
 
     public String generateParam() {
-        String sPar = "";
+        String sPar = " ";
         Iterator<String> is = params.iterator();
 
         while(is.hasNext()) {

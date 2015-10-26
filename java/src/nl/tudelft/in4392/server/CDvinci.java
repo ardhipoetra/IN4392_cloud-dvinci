@@ -22,6 +22,9 @@ public class CDvinci extends UnicastRemoteObject implements _CDvinci {
 
     public CDvinci() throws Exception{
         jobUserMap = new HashMap<String, ArrayList<Job>>();
+
+        System.out.println("create vmlist");
+        VMmanager.showAllVms();
     }
 
     @Override
@@ -96,8 +99,6 @@ public class CDvinci extends UnicastRemoteObject implements _CDvinci {
 
         String returnCallResult = "";
         try {
-
-
             if(command.equalsIgnoreCase("showvms")) {
                 System.out.println("show vms");
                 returnCallResult = VMmanager.showAllVms();
@@ -122,6 +123,11 @@ public class CDvinci extends UnicastRemoteObject implements _CDvinci {
                 returnCallResult = "success";
 
             }else {
+                if (command.equals("3")) returnCallResult = VMmanager.showVMInfo(VMmanager.getVM(40928));
+                else if (command.equals("4")) VMmanager.deleteVM(VMmanager.getVM(40928));
+                else if (command.equals("5")) VMmanager.createVM();
+
+
                 System.out.println("call default SSH command");
             }
         } catch (Exception e) {
