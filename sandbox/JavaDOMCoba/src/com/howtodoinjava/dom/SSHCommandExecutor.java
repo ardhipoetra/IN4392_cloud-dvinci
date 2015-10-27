@@ -14,10 +14,10 @@ public class SSHCommandExecutor {
      */
     public static void main(String[] args) {
         String host="fs3.das4.tudelft.nl";
-        String user="cld1594";
-        String password="Yp08fdaR";
-        String command1="free|grep Mem|awk '{print $4/$2*100.0}'";
-        String command2="top -b -d1 -n1|grep -i \"Cpu(s)\"|head -c21|cut -d ' ' -f3|cut -d '%' -f1";
+        String user="cld1593";
+        String password="6uvfi5EY";
+        String command1="sh /home/cld1593/log/util.sh";
+        //String command2="top -b -d1 -n1|grep -i \"Cpu(s)\"|head -c21|cut -d ' ' -f3|cut -d '%' -f1";
         
 		long start_time = System.nanoTime();			
 		
@@ -33,8 +33,8 @@ public class SSHCommandExecutor {
             //System.out.println("Connected");
              
             Channel channel=session.openChannel("exec");
-            //((ChannelExec)channel).setCommand(command1);
-            ((ChannelExec)channel).setCommand(command2);
+            ((ChannelExec)channel).setCommand(command1);
+            //((ChannelExec)channel).setCommand(command2);
             channel.setInputStream(null);
             ((ChannelExec)channel).setErrStream(System.err);
              

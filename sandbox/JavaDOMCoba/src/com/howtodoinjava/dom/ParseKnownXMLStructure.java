@@ -1,7 +1,10 @@
 package com.howtodoinjava.dom;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.util.*;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -19,8 +22,8 @@ import java.util.Timer;
 
 public class ParseKnownXMLStructure {
 	//create vm array to store VMs informations
-	ArrayList<vm> vmArr;
-    static ArrayList memArr = new ArrayList();
+	static ArrayList<vm> vmArr;
+    static ArrayList<Double> memArr = new ArrayList<Double>();
     public int minIndex;
 	//public static double[] memArr;
     
@@ -92,13 +95,25 @@ public class ParseKnownXMLStructure {
 	public static void main(String[] args) throws Exception {
         ParseKnownXMLStructure ps = new ParseKnownXMLStructure();
         
-        ps.VMMonitor(8);
+        ps.VMMonitor();
         System.out.println("asdsdasob");
         ps.checkVMfornewjob();
+        int lastvm=vmArr.size()-1;
+        System.out.println("Lastvm ip"+vmArr.get(lastvm).ip);
+
+        InetAddress address = InetAddress.getByName(vmArr.get(lastvm).ip);
+        if (address.isReachable(1000)) //1000s timeout
+        System.out.printf("%s is reachable%n", address);
+        else
+        System.out.printf("%s could not be contacted%n", address);
+        
+		//Process p = Runtime.getRuntime().exec("ssh -t cld1593@"+address+" sh /home/cld1593/log/util.sh");
+        
+        //SSHCommandExecutor.class.;
 	}
 	
 
-	public void VMMonitor(final int a) {
+	public void VMMonitor() {
 		//periodically check VM utilization, pout the result in memArr
 		 Thread thread = new Thread() {
 	        	public void run() {
@@ -108,10 +123,10 @@ public class ParseKnownXMLStructure {
 				        }
 				    	minIndex = memArr.indexOf(Collections.min(memArr));
 				    	//if least utilized VM is less than 70%, create new VM
-				    	if (minIndex>70) {
+				    	if (memArr.get(minIndex) > 70) {
 				    		System.out.println("create new VM,submit job");
 				    	}
-				    	else if (minIndex<20) {
+				    	else if (memArr.get(minIndex)<20) {
 				    		System.out.println("VM" +minIndex +" utlization is less than 20%, remove it from VM pool");
 				    	} 
 				    	try {
@@ -128,6 +143,9 @@ public class ParseKnownXMLStructure {
 	
 	public void checkVMfornewjob() {
 		System.out.println("VM with most free resource: VM" +minIndex +", submit job to this VM ");
+		//creating VM code goes here
+		//next is try to put cron job to this VM
+		
 	}
 	
 
