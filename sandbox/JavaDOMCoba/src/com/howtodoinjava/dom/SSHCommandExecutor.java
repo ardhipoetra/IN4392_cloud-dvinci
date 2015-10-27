@@ -17,7 +17,6 @@ public class SSHCommandExecutor {
         String user="cld1593";
         String password="6uvfi5EY";
         String command1="sh /home/cld1593/log/util.sh";
-        //String command2="top -b -d1 -n1|grep -i \"Cpu(s)\"|head -c21|cut -d ' ' -f3|cut -d '%' -f1";
         
 		long start_time = System.nanoTime();			
 		
@@ -30,11 +29,9 @@ public class SSHCommandExecutor {
             session.setPassword(password);
             session.setConfig(config);
             session.connect();
-            //System.out.println("Connected");
              
             Channel channel=session.openChannel("exec");
             ((ChannelExec)channel).setCommand(command1);
-            //((ChannelExec)channel).setCommand(command2);
             channel.setInputStream(null);
             ((ChannelExec)channel).setErrStream(System.err);
              
@@ -55,7 +52,6 @@ public class SSHCommandExecutor {
             }
             channel.disconnect();
             session.disconnect();
-            //System.out.println("DONE");
         }catch(Exception e){
             e.printStackTrace();
         }

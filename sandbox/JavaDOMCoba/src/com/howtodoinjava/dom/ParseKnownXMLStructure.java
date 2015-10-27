@@ -93,7 +93,9 @@ public class ParseKnownXMLStructure {
         InetAddress address = InetAddress.getByName(vmArr.get(lastvm).ip);
         if (address.isReachable(1000)) {//1000s timeout
 	        System.out.printf("%s is reachable%n", address);
-			SSHCommandExecutor.sesuatu();
+			//SSHCommandExecutor.sesuatu();
+	        //Runtime.getRuntime().exec("ssh "+vmArr.get(lastvm).hostname+" sh /home/cld1593/log/util.sh");
+	        Runtime.getRuntime().exec("ssh cld1593@"+vmArr.get(lastvm).ip+" sh /home/cld1593/log/util.sh");
         }
         else
         System.out.printf("%s could not be contacted%n", address);
