@@ -5,8 +5,6 @@ import nl.tudelft.in4392.Utility;
 import nl.tudelft.in4392.model.Job;
 import org.opennebula.client.vm.VirtualMachine;
 
-import javax.rmi.CORBA.Util;
-
 /**
  * Created by ardhipoetra on 10/9/15.
  */
@@ -19,7 +17,9 @@ public class JobManager {
         // find IP/hostname of vmTarget
         String hname = Constants.TEST_TARGET_SSH;
 
-        Utility.callSSH(hname, "echo \"`hostname` "+jj.id+" "+jj.tasks.get(0).action+"\"");
+        Utility.callSSH(hname, "cd /home/cld1593/cloud-dvinci/java/out; "+jj.getCommands());
+
+        // return success for now
         return 0;
     }
 }
