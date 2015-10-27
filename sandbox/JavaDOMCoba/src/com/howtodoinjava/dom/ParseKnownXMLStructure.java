@@ -1,6 +1,10 @@
 package com.howtodoinjava.dom;
 
 import java.io.BufferedReader;
+import java.lang.String;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -25,6 +29,8 @@ public class ParseKnownXMLStructure {
 	//create vm array to store VMs informations
 	static ArrayList<vm> vmArr;
     static ArrayList<Double> memArr = new ArrayList<Double>();
+    static ArrayList<Double> procArr = new ArrayList<Double>();
+    static ArrayList<String> idArr = new ArrayList<String>();
     public int minIndex;
 	//public static double[] memArr;
     
@@ -62,10 +68,10 @@ public class ParseKnownXMLStructure {
 			 }
 			}
 
-			System.out.println("VMs count: " + vmArr.size());
+			//System.out.println("VMs count: " + vmArr.size());
 			
 			//long start_time = System.nanoTime();
-			
+			/*
 	        for(int i=0; i<vmArr.size(); i++){
 	        	double usedMem=vmArr.get(i).checkmem();
 	        	System.out.println("Used Memory VM" + i+ ": "+usedMem+" %");
@@ -75,27 +81,30 @@ public class ParseKnownXMLStructure {
 	    		//vmArr.get(0).checkproc();
 	            //System.out.println("Count is: " + i;
 	        }
+	        */
 	      
     }
 	
 	public static void main(String[] args) throws Exception {
         ParseKnownXMLStructure ps = new ParseKnownXMLStructure();
         
-        ps.VMMonitor();
-        System.out.println("asdsdasob");
+
         ps.checkVMfornewjob();
+        ps.parsinglogfile();
+        ps.VMMonitor();
         
         //move this block to checkVMfornewjob below
         //============
         int lastvm=vmArr.size()-1;
-        System.out.println("Lastvm ip"+vmArr.get(lastvm).ip);
+        //System.out.println("Lastvm ip"+vmArr.get(lastvm).ip);
 
         InetAddress address = InetAddress.getByName(vmArr.get(lastvm).ip);
         if (address.isReachable(1000)) {//1000s timeout
-	        System.out.printf("%s is reachable%n", address);
+	        //System.out.printf("%s is reachable%n", address);
 			//SSHCommandExecutor.sesuatu();
-	        //Runtime.getRuntime().exec("ssh "+vmArr.get(lastvm).hostname+" sh /home/cld1593/log/util.sh");
-	        Runtime.getRuntime().exec("ssh cld1593@"+vmArr.get(lastvm).ip+" sh /home/cld1593/log/util.sh");
+	        //get latest created VM. Ask it to run log file script
+	        Runtime.getRuntime().exec("ssh cld1593@"+vmArr.get(lastvm).ip+" sh /home/cld1593/log/util.sh "+vmArr.get(lastvm).id);
+	        //todo: log file format
         }
         else
         System.out.printf("%s could not be contacted%n", address);
@@ -104,23 +113,22 @@ public class ParseKnownXMLStructure {
 	
 
 	public void VMMonitor() {
-		//periodically check VM utilization, pout the result in memArr
 		 Thread thread = new Thread() {
 	        	public void run() {
 			        while (true){
+			        	//System.out.println(procArr.size());
+			      		//System.out.println(procArr.get(1));
+			      		/*
 				        for(int i=0; i<vmArr.size(); i++){
 				        	memArr.add(i,vmArr.get(i).mem);
-				        }
-				    	minIndex = memArr.indexOf(Collections.min(memArr));
-				    	//if least utilized VM is less than 70%, create new VM
-				    	if (memArr.get(minIndex) > 70) {
-				    		System.out.println("create new VM,submit job");
-				    	}
-				    	else if (memArr.get(minIndex)<20) {
-				    		System.out.println("VM" +minIndex +" utlization is less than 20%, remove it from VM pool");
-				    	} 
+				        } */
+				    	minIndex = procArr.indexOf(Collections.min(procArr));
+
+				    	//create and delete VM rules goes here. based on proArr
+				    	System.out.println("VM with least util: "+idArr.get(minIndex));
+				    	
 				    	try {
-							Thread.sleep(2000);
+							Thread.sleep(3000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -132,11 +140,78 @@ public class ParseKnownXMLStructure {
 	}
 	
 	public void checkVMfornewjob() {
-		System.out.println("VM with most free resource: VM" +minIndex +", submit job to this VM ");
+		//System.out.println("VM with most free resource: VM" +minIndex +", submit job to this VM ");
 		//creating VM code goes here
-		//next is try to put cron job to this VM
-		
+		//next is try to put cron job to this VM		
+	}
+
+	public void parsinglogfile() throws Exception {
+		//this function reads log file. put the result in memArray, procArray and id Array
+		//these three arrays is like relational arrays, related with the indexes
+		  
+        for(int i=0; i<vmArr.size(); i++){
+    		//get log file. format: vm_id.log
+    		FileInputStream in = new FileInputStream("/home/hedi/"+vmArr.get(i).id+".log");
+    		//System.out.println(vmArr.get(i).id);
+  		  BufferedReader br = new BufferedReader(new InputStreamReader(in));  		 
+  		  String strLine = null, tmp;  		 
+  		  while ((tmp = br.readLine()) != null)
+  		  {  			
+  		     strLine = tmp;
+  		  }
+  		  //read last line, split the mem and proc util, put into array
+  		  String lastLine = strLine;
+  		  memArr.add(i,vmArr.get(i).mem);
+  		  String[] array = strLine.split(" ", -1);
+  		  //System.out.println(array[1]);
+  		  in.close();
+  		  //System.out.println(search(vmArr.get(i).id,idArr));
+  		  if (search(vmArr.get(i).id,idArr)==0)
+  		  {
+  			//if the id is not exist in idArr is not exist, add new element
+  			idArr.add(vmArr.get(i).id);
+  			memArr.add(Double.parseDouble(array[0]));
+  			procArr.add(Double.parseDouble(array[1]));
+  		  }
+  		  else
+  		  {
+  			//if idArr exists, replace the value
+  			idArr.add(search(vmArr.get(i).id,idArr), vmArr.get(i).id);
+  			memArr.add(search(vmArr.get(i).id,idArr), Double.parseDouble(array[0]));
+  			procArr.add(search(vmArr.get(i).id,idArr), Double.parseDouble(array[0]));
+  		  }
+        }
 	}
 	
 
+	public static int search(String searchStr, ArrayList<String> aList)
+		{	 
+		boolean found = false;
+		Iterator<String>  iter = aList.iterator();
+		String curItem="";
+		int pos=0;
+		 
+		while ( iter .hasNext() == true )
+		{
+		    pos=pos+1;
+		    curItem =(String) iter .next();
+		    if (curItem.equals(searchStr)  ) {
+		    found = true;
+		    break;
+		        }		 
+		}		 
+		if ( found == false ) {
+		pos=0;
+		}
+		 
+		if (pos!=0)
+		 {
+			System.out.println(searchStr + " Found in position : " + pos);
+		 }
+		else
+		 {		 
+		    //System.out.println(searchStr + " Not found");
+		 }
+		return pos;	 
+	}
 }
