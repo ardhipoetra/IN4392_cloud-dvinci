@@ -3,12 +3,14 @@ import java.io.*;
 
 public class vm {
 	public String id;
+	public String hostname;
 	public String ip;
 	public double mem;
 	public double cpu;
 	
-	public vm(String vmid, String vmip, double vmmem, double vmcpu) {
+	public vm(String vmid, String vmhost, String vmip, double vmmem, double vmcpu) {
         id = vmid;
+        hostname = vmhost;
         ip = vmip;
         mem = 0;
         cpu = 0;

@@ -12,7 +12,7 @@ public class SSHCommandExecutor {
     /** 
      * @param args
      */
-    public static void main(String[] args) {
+    public static void sesuatu() {
         String host="fs3.das4.tudelft.nl";
         String user="cld1593";
         String password="6uvfi5EY";

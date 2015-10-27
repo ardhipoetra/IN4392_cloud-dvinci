@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.dom4j.Text;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -44,6 +45,7 @@ public class ParseKnownXMLStructure {
 			//Get all employees
 			NodeList nList = document.getElementsByTagName("VM");
 			
+			Element firstNode = (Element) nList.item( 0 );
 			//storing VM objects to array (hedi)
 			vmArr = new ArrayList<vm>();
 					
@@ -54,8 +56,9 @@ public class ParseKnownXMLStructure {
 			 if (node.getNodeType() == Node.ELEMENT_NODE)
 			 {
 			    Element eElement = (Element) node;
-			    //insert vm info from xml file to vmArr (hedi)
-			    vmArr.add(new vm(eElement.getElementsByTagName("ID").item(0).getTextContent(), eElement.getElementsByTagName("IP").item(0).getTextContent(),0,0));
+			    vmArr.add(new vm(eElement.getElementsByTagName("ID").item(0).getTextContent(),
+			    		eElement.getElementsByTagName("HOSTNAME").item(1).getTextContent(), 
+			    		eElement.getElementsByTagName("IP").item(0).getTextContent(),0,0));
 			 }
 			}
 
@@ -73,23 +76,6 @@ public class ParseKnownXMLStructure {
 	            //System.out.println("Count is: " + i;
 	        }
 	      
-			//long end_time = System.nanoTime();	double difference = (end_time - start_time)/1e6;
-			//System.out.println("Execution time: "+difference+" ms");
-					
-			//====================================================
-			//accepting new job
-	        //iterating from lowest VM index (VM0) to see if it's below 70%
-	        //if yes submit. if there is no VM below 70, create new VM then submit
-			//====================================================
-			/*
-	        for(int i=0; i<vmArr.size()-1; i++){
-	        	if (vmArr.get(i).mem<70) {
-	        		System.out.println("less than 70%, submit job");
-	                break;
-	        	}
-	        	System.out.println("no VM less than 70%, create new VM");
-	        }
-	        */
     }
 	
 	public static void main(String[] args) throws Exception {
@@ -98,18 +84,20 @@ public class ParseKnownXMLStructure {
         ps.VMMonitor();
         System.out.println("asdsdasob");
         ps.checkVMfornewjob();
+        
+        //move this block to checkVMfornewjob below
+        //============
         int lastvm=vmArr.size()-1;
         System.out.println("Lastvm ip"+vmArr.get(lastvm).ip);
 
         InetAddress address = InetAddress.getByName(vmArr.get(lastvm).ip);
-        if (address.isReachable(1000)) //1000s timeout
-        System.out.printf("%s is reachable%n", address);
+        if (address.isReachable(1000)) {//1000s timeout
+	        System.out.printf("%s is reachable%n", address);
+			SSHCommandExecutor.sesuatu();
+        }
         else
         System.out.printf("%s could not be contacted%n", address);
-        
-		//Process p = Runtime.getRuntime().exec("ssh -t cld1593@"+address+" sh /home/cld1593/log/util.sh");
-        
-        //SSHCommandExecutor.class.;
+        //=============
 	}
 	
 
