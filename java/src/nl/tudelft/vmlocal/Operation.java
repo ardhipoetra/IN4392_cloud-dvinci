@@ -41,6 +41,7 @@ public class Operation {
             exURI = expath;
 
         SetPrimaryImage();
+        RefreshDestURI();
         return true;
     }
 

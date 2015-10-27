@@ -13,21 +13,26 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import sun.management.VMManagement;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.FileInputStream;
 import java.io.StringReader;
 import java.nio.charset.Charset;
-import java.util.HashMap;
+import java.util.*;
 
 public class VMmanager {
 
     public static Client c;
 
     public static HashMap<Integer, VinciVM> vmList = new HashMap<Integer, VinciVM>();
+    static ArrayList<Double> memArr = new ArrayList<Double>();
 
-	public static VinciVM createVM() throws Exception{
+
+    static int currentTargetVm = -1;
+
+    public static VinciVM createVM() throws Exception{
 
         FileInputStream fileInputStream = new FileInputStream(Constants.VM_TEMPLATE_DEFAULT);
         byte[] buffer = new byte[fileInputStream.available()];
@@ -72,10 +77,7 @@ public class VMmanager {
 
     public static OneResponse deleteVM(VinciVM vm) {
         vmList.remove(vm.id());
-
         OneResponse or = vm.finalizeVM();
-
-
         return or;
     }
 
@@ -126,8 +128,13 @@ public class VMmanager {
         return ret;
     }
 
-    public static VirtualMachine getAvailableVM() {
-        return new VirtualMachine(40911, c);
+    public static VinciVM getAvailableVM() {
+
+        while(VMmanager.currentTargetVm < 0) {
+
+        }
+
+        return vmList.get(VMmanager.currentTargetVm);
     }
 
 
@@ -157,12 +164,59 @@ public class VMmanager {
                 0,
                 0);
 
-        ret.setHostname(eElement.getElementsByTagName("HOSTNAME").item(0).getTextContent());
+        ret.setHostname(eElement.getElementsByTagName("HOSTNAME").item(1).getTextContent());
         ret.setXmlData(s);
 
         vmList.put(ret.id, ret);
 
         System.out.println("parsed : "+ret.id);
         return ret;
+    }
+
+    public static void startVMmonitor() {
+        Thread thread = new Thread() {
+            public void run() {
+                while (true){
+                    Double minMem = Double.MAX_VALUE;
+                    Iterator<Map.Entry<Integer, VinciVM>> it = vmList.entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry<Integer,VinciVM> e = it.next();
+                        if(minMem.compareTo(e.getValue().mem) > 0) {
+                            VMmanager.currentTargetVm = e.getKey();
+                        }
+                    }
+                    System.out.println("min VM target : "+VMmanager.currentTargetVm);
+
+                    //if least utilized VM is less than 70%, create new VM
+//                    if (minMem.compareTo(new Double("70")) > 0) {
+//                        System.out.println("create new VM");
+//
+//                        try {
+//                            VinciVM newvm = VMmanager.createVM();
+//                            System.out.println("created VM : "+newvm.id());
+//                            VMmanager.currentTargetVm = newvm.id();
+//                        } catch (Exception e) {e.printStackTrace();}
+//
+//                    }
+//                    else if (minMem.compareTo(new Double("20")) < 0 && vmList.size() > 3) {
+//                        System.out.println("VM" +VMmanager.currentTargetVm +" utlization is less than 20%, remove it from VM pool");
+//
+//                        VMmanager.deleteVM(vmList.get(VMmanager.currentTargetVm));
+//                        VMmanager.currentTargetVm = new ArrayList<Integer>(vmList.keySet())
+//                                .get(new Random().nextInt(vmList.keySet().size()));
+//                    }
+
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+
+        thread.start();
     }
 }

@@ -25,11 +25,12 @@ public class CDvinci extends UnicastRemoteObject implements _CDvinci {
 
         System.out.println("create vmlist");
         VMmanager.showAllVms();
+        VMmanager.startVMmonitor();
     }
 
     @Override
     public Job addJob(String userID, Job j) throws RemoteException {
-        j.status = Job.JOB_SUBMITTED;
+        j.status = Job.JOB_WAITING;
 
         ArrayList<Job> jarlist;
 

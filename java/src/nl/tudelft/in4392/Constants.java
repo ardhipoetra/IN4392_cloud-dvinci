@@ -13,6 +13,8 @@ public class Constants {
     public static final String TEST_ADMIN = "adminmd5hash";
     public static final String TEST_TARGET_SSH = "node312";
 
+    public static final String START_WORKSPACE_VM = "/home/cld1593/cloud-dvinci/java/out";
+
     public static final String SSH_USER = "cld1593";
     public static final String SSH_PASS = "6uvfi5EY";
     public static final String SSH_ID = "/home/"+SSH_USER+"/.ssh/id_dsa";

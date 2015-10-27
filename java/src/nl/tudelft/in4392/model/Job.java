@@ -13,9 +13,10 @@ public class Job implements Serializable{
     private static final long serialVersionUID = -5186370518480604238L;
 
     public static final int JOB_CREATED = 0;
-    public static final int JOB_SUBMITTED = 1;
+    public static final int JOB_WAITING = 1;
     public static final int JOB_RUNNING = 2;
     public static final int JOB_FINISH = 9;
+    public static final int JOB_ERROR = 88;
 
 
     public int id;
@@ -37,13 +38,12 @@ public class Job implements Serializable{
         this.URI = URI;
         tasks = new ArrayList<Task>();
         this.uid = uid;
+        this.status = JOB_CREATED;
 	}
 
     public void setDestPath(String dpath) {
-        destfile = dpath;
+        this.destfile = dpath;
     }
-
-    public Job() {this.name = "temp";}
 
     public boolean getInfo(String path, String expath) {
         File f = new File(path);
@@ -55,7 +55,7 @@ public class Job implements Serializable{
         filename = FilenameUtils.getBaseName(path);
         extension = FilenameUtils.getExtension(path);
 
-        destfile = path;
+        this.destfile = path;
 
         if (".".equals(expath))
             exURI = FilenameUtils.getFullPath(URI);

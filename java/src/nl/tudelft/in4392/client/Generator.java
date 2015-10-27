@@ -4,13 +4,12 @@ import nl.tudelft.in4392.Constants;
 import nl.tudelft.in4392.model.Job;
 import nl.tudelft.in4392.model.Task;
 import nl.tudelft.in4392.server._CDvinci;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * Created by ardhipoetra on 10/6/15.
@@ -67,24 +66,41 @@ public class Generator {
                 genJobs.scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {
-                        if (numJobsRun++ == numJobs) {
-                            genJobs.cancel(); genJobs.purge();
+
+                        Iterator<File> it = FileUtils.iterateFiles(new File("/home/cld1593/stockpic/"), null, false);
+
+                        while(it.hasNext()) {
+                            String fname = "";
+                            File f = it.next();
+                            try {
+                                fname = f.getCanonicalPath();
+                            } catch (Exception e) {fname = f.getAbsolutePath();}
+
+
+                            Job jj = new Job("name"+numJobsRun, fname, md5user);
+                            jj.setDestPath(fname + "_" + md5user + "/" + numJobsRun);
+                            try {
+
+                                jj.id = new Random().nextInt() + numJobsRun;
+
+                                Task t = new Task(Task.TASK_ROTATE);
+                                t.addParam("90");
+
+                                jj.addTask(t);
+                                jj.addTask(t);
+                                jj.addTask(t);
+
+                                System.out.println("job id "+jj.id+" created");
+
+                                cdisrv.addJob(md5user,jj);
+
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+                            numJobsRun++;
                         }
-
-                        Job jj = new Job("name"+numJobsRun, "/home/cld1593/cloud-dvinci/java/out/img.jpg", md5user);
-                        jj.setDestPath("/home/cld1593/cloud-dvinci/java/out/img"+numJobsRun+".jpg");
-                        try {
-                            jj.id = new Random().nextInt() + numJobsRun;
-
-                            Task t = new Task(Task.TASK_ROTATE);
-                            t.addParam("90");
-
-                            jj.addTask(t);
-                            System.out.println("job id "+jj.id+" created");
-                            cdisrv.addJob(md5user,jj);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
+                        genJobs.cancel();
+                        genJobs.purge();
                     }
                 }, 0, Constants.INTERVAL_JOB);
             }

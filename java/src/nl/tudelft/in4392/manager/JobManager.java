@@ -3,6 +3,7 @@ package nl.tudelft.in4392.manager;
 import nl.tudelft.in4392.Constants;
 import nl.tudelft.in4392.Utility;
 import nl.tudelft.in4392.model.Job;
+import nl.tudelft.in4392.model.VinciVM;
 import org.opennebula.client.vm.VirtualMachine;
 
 /**
@@ -10,16 +11,33 @@ import org.opennebula.client.vm.VirtualMachine;
  */
 public class JobManager {
 
-    public static int submitJobtoVM(Job jj) {
+    public static int submitJobtoVM(final Job jj) {
 
-        VirtualMachine vmTarget = VMmanager.getAvailableVM();
+        VinciVM vmTarget = VMmanager.getAvailableVM();
 
         // find IP/hostname of vmTarget
-        String hname = Constants.TEST_TARGET_SSH;
+        final String hname = vmTarget.hostname; //Constants.TEST_TARGET_SSH;
 
-        Utility.callSSH(hname, "cd /home/cld1593/cloud-dvinci/java/out; "+jj.getCommands());
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+
+                Utility.callSSH(hname, "cd "+Constants.START_WORKSPACE_VM+"; "+jj.getCommands());
+                jj.status = Job.JOB_FINISH;
+
+                JobManager.informJobFinish(jj);
+            }
+        };
+
+        jj.status = Job.JOB_RUNNING;
+        t.start();
 
         // return success for now
-        return 0;
+        return jj.status;
+    }
+
+
+    public static void informJobFinish(final Job jj) {
+
     }
 }
