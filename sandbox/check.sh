@@ -10,9 +10,9 @@ while true
  let len=len-1
  for i in `seq 1 $len`
   do
-        echo $i>>file
-	date>>file
-	sh proc.sh ${myarr[i]}>>file
+        echo $i>>file.log
+	date>>file.log
+	sh proc.sh ${myarr[i]}>>file.log
  done
 #sleep 1
 done
