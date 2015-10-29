@@ -86,8 +86,8 @@ public class VMmanager {
                 break;
             }
         }
-
-        logger.info("data : "+vm.getName());
+        
+        logger.info("VM "+vm.getName()+" created"); //hedi
         System.out.println("The new VM " + vm.getName() + " has status: " + vm.status() + ". Ready");
 
         return vm;
@@ -99,6 +99,7 @@ public class VMmanager {
 
     public static OneResponse deleteVM(VinciVM vm) {
         vmList.remove(vm.id());
+        logger.info("VM "+vm.id()+" removed"); //hedi
         OneResponse or = vm.finalizeVM();
         return or;
     }
