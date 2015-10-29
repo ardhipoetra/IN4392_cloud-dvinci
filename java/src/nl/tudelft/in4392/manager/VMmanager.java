@@ -55,10 +55,7 @@ public class VMmanager {
 
         OneResponse rc = VirtualMachine.allocate(c, vmtemplate);
 
-<<<<<<< HEAD
         logger.info("data : " + length);
-=======
->>>>>>> 3d97096c44f7dedd42a3e9109b788cd1247fef81
 
         if(rc.isError()) {
             logger.error("failed");
@@ -76,26 +73,8 @@ public class VMmanager {
 
         vm = VMmanager.parseXML(rc.getMessage());
         vm.status = VinciVM.VM_OFF;
-
-        System.out.println("The new VM " + vm.getName() + " has status: " + vm.status() + ". Now initialize");
-<<<<<<< HEAD
-=======
-
-        InetAddress address = InetAddress.getByName(vm.hostname);
-        boolean runCheck = false;
-        while(true) {
-            if (address.isReachable(1000)) {
-                Runtime.getRuntime().exec("ssh " + vm.hostname + " sh /home/cld1593/log/util.sh " + vm.id());
-//                Utility.callSSH(vm.hostname, "sh /home/cld1593/log/util.sh " + vm.id());
-                System.out.println("initialization~");
-                break;
-            }
-        }
-        
         logger.info("VM "+vm.getName()+" created"); //hedi
-        System.out.println("The new VM " + vm.getName() + " has status: " + vm.status() + ". Ready");
-
->>>>>>> 3d97096c44f7dedd42a3e9109b788cd1247fef81
+        System.out.println("The new VM " + vm.getName() + " has status: " + vm.status() + ". Now initialize");
         return vm;
     }
 
@@ -105,7 +84,6 @@ public class VMmanager {
 
     public static OneResponse deleteVM(VinciVM vm) {
         vmList.remove(vm.id());
-        logger.info("VM "+vm.id()+" removed"); //hedi
         OneResponse or = vm.finalizeVM();
         return or;
     }
@@ -241,7 +219,6 @@ public class VMmanager {
 
                         vm.mem = Double.parseDouble(sarray[0]);
                         vm.cpu = Double.parseDouble(sarray[1]);
-<<<<<<< HEAD
                     } catch (FileNotFoundException e) {
                         System.out.println("file "+kv.getKey()+" not found, that means the util has not running");
                         creatingVMStatus = true;
@@ -267,12 +244,6 @@ public class VMmanager {
                         } catch (Exception ex){}
                     } catch (Exception e) { // let it go~
                     }
-=======
-                        
-                        logger.info("util "+kv.getKey()+" "+vm.mem+" "+vm.cpu); //hedi
-                        
-                    } catch (Exception e) {e.printStackTrace();};
->>>>>>> 3d97096c44f7dedd42a3e9109b788cd1247fef81
                 }
                     System.out.println();
 
