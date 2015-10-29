@@ -105,80 +105,6 @@ public class Generator {
         }
 
         loopParseCommand(args,Multidest, source, cdisrv);
-//        while(running){
-//            System.out.println("0 : exit\n1:gettotal jobs\n2:list jobs\nother number : send jobs");
-//            System.out.print("Enter command: ");
-//            String command = s.next();
-//
-//
-//            if(command.equals("0"))
-//                running = false;
-//            else if(command.equals("1")) {
-//                System.out.println(cdisrv.getTotalJobs(md5user));
-//            } else if(command.equals("2")) {
-//                cdisrv.printJobs(md5user);
-//            }
-//
-//            else {
-//                final int numJobs = Integer.parseInt(command);
-//
-//                genJobs = new Timer(true);
-//
-//                genJobs.scheduleAtFixedRate(new TimerTask() {
-//                    @Override
-//                    public void run() {
-//
-//                        Iterator<File> it = FileUtils.iterateFiles(new File("/home/cld1593/stock2/"), null, false);
-//
-//                        while(it.hasNext()) {
-//                            String fname = "";
-//                            File f = it.next();
-//                            try {
-//                                fname = f.getCanonicalPath();
-//                            } catch (Exception e) {fname = f.getAbsolutePath();}
-//
-//
-//                            Job jj = new Job("name"+numJobsRun, fname, md5user);
-//                            jj.setDestPath("/home/cld1593/stock2/user");
-//                            try {
-//
-//                                jj.id = new Random().nextInt() + numJobsRun;
-//
-//                                Task trot = new Task(Task.TASK_ROTATE);
-//                                trot.addParam("90");
-//                                jj.addTask(trot);
-//
-//                                Task tblur = new Task(Task.TASK_BLUR);
-//                                tblur.addParam("0");
-//                                tblur.addParam("8");
-//                                jj.addTask(tblur);
-//
-//                                Task tblur2 = new Task(Task.TASK_SHARPEN);
-//                                tblur2.addParam("4");
-//                                tblur2.addParam("8");
-//                                jj.addTask(tblur2);
-//
-//                                System.out.println("job id "+jj.id+" created");
-//                                cdisrv.addJob(md5user,jj);
-//
-//                            } catch (RemoteException e) {
-//                                e.printStackTrace();
-//                            }
-//                            numJobsRun++;
-//                        }
-//
-//                        if(numJobsRun == numJobs) {
-//                            genJobs.cancel();
-//                            genJobs.purge();
-//                        }
-////                        genJobs.cancel();
-////                        genJobs.purge();
-//                    }
-//                }, 0, Constants.INTERVAL_JOB);
-//            }
-//
-//            System.out.println(command);
-//        }
     }
 
     private static void loopParseCommand(String[] args, ArrayList<String> Multidest,
@@ -276,4 +202,6 @@ public class Generator {
             cdisrv.addJob(md5user,jj);
         }
     }
+
+
 }
