@@ -33,28 +33,28 @@ public class ParseKnownXMLStructure {
     static ArrayList<String> idArr = new ArrayList<String>();
     public int minIndex;
 	//public static double[] memArr;
-    
+
     public ParseKnownXMLStructure() throws ParserConfigurationException, SAXException, IOException {
     	//Get Docuemnt Builder
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			 
+
 			//Build Document
 			Document document = builder.parse(new File("vm.xml"));
-			 
+
 			//Normalize the XML Structure; It's just too important !!
 			document.getDocumentElement().normalize();
-			 
+
 			//Here comes the root node
 			Element root = document.getDocumentElement();
-			 
+
 			//Get all employees
 			NodeList nList = document.getElementsByTagName("VM");
-			
+
 			Element firstNode = (Element) nList.item( 0 );
 			//storing VM objects to array (hedi)
 			vmArr = new ArrayList<vm>();
-					
+
 			//iterating through the XML file
 			for (int temp = 0; temp < nList.getLength(); temp++)
 			{
@@ -63,13 +63,13 @@ public class ParseKnownXMLStructure {
 			 {
 			    Element eElement = (Element) node;
 			    vmArr.add(new vm(eElement.getElementsByTagName("ID").item(0).getTextContent(),
-			    		eElement.getElementsByTagName("HOSTNAME").item(1).getTextContent(), 
+			    		eElement.getElementsByTagName("HOSTNAME").item(1).getTextContent(),
 			    		eElement.getElementsByTagName("IP").item(0).getTextContent(),0,0));
 			 }
 			}
 
 			//System.out.println("VMs count: " + vmArr.size());
-			
+
 			//long start_time = System.nanoTime();
 			/*
 	        for(int i=0; i<vmArr.size(); i++){
@@ -77,22 +77,22 @@ public class ParseKnownXMLStructure {
 	        	System.out.println("Used Memory VM" + i+ ": "+usedMem+" %");
 	        	vmArr.get(i).mem=usedMem;
 	        	//vmArr.get(i).cpu=usedCpu;
-	        	//System.out.println("Used CPU VM" + i+ ": "+usedCpu+" %\n");    		
+	        	//System.out.println("Used CPU VM" + i+ ": "+usedCpu+" %\n");
 	    		//vmArr.get(0).checkproc();
 	            //System.out.println("Count is: " + i;
 	        }
 	        */
-	      
+
     }
-	
+
 	public static void main(String[] args) throws Exception {
         ParseKnownXMLStructure ps = new ParseKnownXMLStructure();
-        
+
 
         ps.checkVMfornewjob();
         ps.parsinglogfile();
         ps.VMMonitor();
-        
+
         //move this block to checkVMfornewjob below
         //============
         int lastvm=vmArr.size()-1;
@@ -110,7 +110,7 @@ public class ParseKnownXMLStructure {
         System.out.printf("%s could not be contacted%n", address);
         //=============
 	}
-	
+
 
 	public void VMMonitor() {
 		 Thread thread = new Thread() {
@@ -126,7 +126,7 @@ public class ParseKnownXMLStructure {
 
 				    	//create and delete VM rules goes here. based on proArr
 				    	System.out.println("VM with least util: "+idArr.get(minIndex));
-				    	
+
 				    	try {
 							Thread.sleep(3000);
 						} catch (InterruptedException e) {
@@ -138,25 +138,25 @@ public class ParseKnownXMLStructure {
 	        };
 	        thread.start();
 	}
-	
+
 	public void checkVMfornewjob() {
 		//System.out.println("VM with most free resource: VM" +minIndex +", submit job to this VM ");
 		//creating VM code goes here
-		//next is try to put cron job to this VM		
+		//next is try to put cron job to this VM
 	}
 
 	public void parsinglogfile() throws Exception {
 		//this function reads log file. put the result in memArray, procArray and id Array
 		//these three arrays is like relational arrays, related with the indexes
-		  
+
         for(int i=0; i<vmArr.size(); i++){
     		//get log file. format: vm_id.log
-    		FileInputStream in = new FileInputStream("/home/hedi/"+vmArr.get(i).id+".log");
+    		FileInputStream in = new FileInputStream("/home/cld1593/log/"+vmArr.get(i).id+".log");
     		//System.out.println(vmArr.get(i).id);
-  		  BufferedReader br = new BufferedReader(new InputStreamReader(in));  		 
-  		  String strLine = null, tmp;  		 
+  		  BufferedReader br = new BufferedReader(new InputStreamReader(in));
+  		  String strLine = null, tmp;
   		  while ((tmp = br.readLine()) != null)
-  		  {  			
+  		  {
   		     strLine = tmp;
   		  }
   		  //read last line, split the mem and proc util, put into array
@@ -182,15 +182,15 @@ public class ParseKnownXMLStructure {
   		  }
         }
 	}
-	
+
 
 	public static int search(String searchStr, ArrayList<String> aList)
-		{	 
+		{
 		boolean found = false;
 		Iterator<String>  iter = aList.iterator();
 		String curItem="";
 		int pos=0;
-		 
+
 		while ( iter .hasNext() == true )
 		{
 		    pos=pos+1;
@@ -198,20 +198,20 @@ public class ParseKnownXMLStructure {
 		    if (curItem.equals(searchStr)  ) {
 		    found = true;
 		    break;
-		        }		 
-		}		 
+		        }
+		}
 		if ( found == false ) {
 		pos=0;
 		}
-		 
+
 		if (pos!=0)
 		 {
 			System.out.println(searchStr + " Found in position : " + pos);
 		 }
 		else
-		 {		 
+		 {
 		    //System.out.println(searchStr + " Not found");
 		 }
-		return pos;	 
+		return pos;
 	}
 }

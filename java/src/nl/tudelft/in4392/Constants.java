@@ -14,6 +14,7 @@ public class Constants {
     public static final String TEST_TARGET_SSH = "node312";
 
     public static final String START_WORKSPACE_VM = "/home/cld1593/cloud-dvinci/java/out";
+    public static final String LOCAL_ENGINE_JAR = "/home/cld1593/Local_Engine/dist/local-engine.jar";
 
     public static final String SSH_USER = "cld1593";
     public static final String SSH_PASS = "6uvfi5EY";
@@ -22,4 +23,5 @@ public class Constants {
 
     public static final String VM_TEMPLATE_DEFAULT = "/home/"+SSH_USER+"/OpenNebula/centos-smallnet-qcow2.one";
 
+    public static final int VM_MONITOR_CHECK_INTERVAL = 200;
 }

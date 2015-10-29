@@ -8,6 +8,8 @@ import org.opennebula.client.ClientConfigurationException;
 import org.opennebula.client.OneResponse;
 import org.opennebula.client.vm.VirtualMachine;
 import org.opennebula.client.vm.VirtualMachinePool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -17,10 +19,13 @@ import sun.management.VMManagement;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.net.InetAddress;
 
 public class VMmanager {
 
@@ -29,6 +34,7 @@ public class VMmanager {
     public static HashMap<Integer, VinciVM> vmList = new HashMap<Integer, VinciVM>();
     static ArrayList<Double> memArr = new ArrayList<Double>();
 
+    static Logger logger = LoggerFactory.getLogger(VMmanager.class);
 
     static int currentTargetVm = -1;
 
@@ -50,8 +56,10 @@ public class VMmanager {
 
         OneResponse rc = VirtualMachine.allocate(c, vmtemplate);
 
+        logger.info("data : "+length);
+
         if(rc.isError()) {
-            System.out.println( "failed!");
+            logger.error("failed");
             throw new Exception( rc.getErrorMessage() );
         }
 
@@ -65,9 +73,23 @@ public class VMmanager {
         if(rc.isError())
             throw new Exception( rc.getErrorMessage() );
 
-        System.out.println("The new VM " + vm.getName() + " has status: " + vm.status());
+        vm = VMmanager.parseXML(rc.getMessage());
 
-        vmList.put(newVMID, vm);
+        System.out.println("The new VM " + vm.getName() + " has status: " + vm.status() + ". Now initialize");
+
+        InetAddress address = InetAddress.getByName(vm.hostname);
+        boolean runCheck = false;
+        while(true) {
+            if (address.isReachable(1000)) {
+                Runtime.getRuntime().exec("ssh " + vm.hostname + " sh /home/cld1593/log/util.sh " + vm.id());
+//                Utility.callSSH(vm.hostname, "sh /home/cld1593/log/util.sh " + vm.id());
+                System.out.println("initialization~");
+                break;
+            }
+        }
+
+        System.out.println("The new VM " + vm.getName() + " has status: " + vm.status() + ". Ready");
+
         return vm;
     }
 
@@ -164,6 +186,11 @@ public class VMmanager {
                 0,
                 0);
 
+        System.out.println(s);
+        System.out.println(eElement.getElementsByTagName("HOSTNAME"));
+        System.out.println(eElement.getElementsByTagName("HOSTNAME").item(0).getTextContent());
+        System.out.println(eElement.getElementsByTagName("HOSTNAME").item(1).getTextContent());
+
         ret.setHostname(eElement.getElementsByTagName("HOSTNAME").item(1).getTextContent());
         ret.setXmlData(s);
 
@@ -177,42 +204,82 @@ public class VMmanager {
         Thread thread = new Thread() {
             public void run() {
                 while (true){
-                    Double minMem = Double.MAX_VALUE;
-                    Iterator<Map.Entry<Integer, VinciVM>> it = vmList.entrySet().iterator();
-                    while (it.hasNext()) {
-                        Map.Entry<Integer,VinciVM> e = it.next();
-                        if(minMem.compareTo(e.getValue().mem) > 0) {
-                            VMmanager.currentTargetVm = e.getKey();
-                        }
-                    }
-                    System.out.println("min VM target : "+VMmanager.currentTargetVm);
 
-                    //if least utilized VM is less than 70%, create new VM
-//                    if (minMem.compareTo(new Double("70")) > 0) {
-//                        System.out.println("create new VM");
-//
-//                        try {
-//                            VinciVM newvm = VMmanager.createVM();
-//                            System.out.println("created VM : "+newvm.id());
-//                            VMmanager.currentTargetVm = newvm.id();
-//                        } catch (Exception e) {e.printStackTrace();}
-//
-//                    }
-//                    else if (minMem.compareTo(new Double("20")) < 0 && vmList.size() > 3) {
-//                        System.out.println("VM" +VMmanager.currentTargetVm +" utlization is less than 20%, remove it from VM pool");
-//
-//                        VMmanager.deleteVM(vmList.get(VMmanager.currentTargetVm));
-//                        VMmanager.currentTargetVm = new ArrayList<Integer>(vmList.keySet())
-//                                .get(new Random().nextInt(vmList.keySet().size()));
-//                    }
+                Iterator<Map.Entry<Integer, VinciVM>> it = vmList.entrySet().iterator();
 
+                while(it.hasNext()) {
+                    Map.Entry<Integer, VinciVM> kv = it.next();
 
                     try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        //get log file. format: vm_id.log
+                        FileInputStream in = new FileInputStream("/home/cld1593/log/"+kv.getKey()+".log");
+                        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                        String strLine = null, tmp;
+                        while ((tmp = br.readLine()) != null) strLine = tmp;
+
+                        //read last line, split the mem and proc util, put into array
+                        String lastLine = strLine;
+
+                        String[] sarray = strLine.split(" ", -1);
+
+                        in.close();
+
+                        VinciVM vm = kv.getValue();
+
+                        vm.mem = Double.parseDouble(sarray[0]);
+                        vm.cpu = Double.parseDouble(sarray[1]);
+                    } catch (Exception e) {e.printStackTrace();};
+                }
+
+
+                Double minMem = Double.MAX_VALUE; int idMinMemVm = -1;
+                Double minCpu = Double.MAX_VALUE; int idMinCpuVm = -1;
+
+                Iterator<Map.Entry<Integer, VinciVM>> itCheck = vmList.entrySet().iterator();
+                while (itCheck.hasNext()) {
+                    Map.Entry<Integer,VinciVM> e = itCheck.next();
+                    if(minMem.compareTo(e.getValue().mem) > 0) {
+                        idMinMemVm = e.getKey();
+                        minMem = e.getValue().mem;
+                    }
+
+                    if(minCpu.compareTo(e.getValue().cpu) > 0) {
+                        idMinCpuVm = e.getKey();
+                        minCpu = e.getValue().cpu;
                     }
                 }
+
+                VMmanager.currentTargetVm = idMinCpuVm;
+
+                System.out.printf("MEM (%f) : %d | CPU (%f) : %d \n", minMem, idMinMemVm, minCpu, idMinCpuVm);
+
+                //if least utilized VM is less than 70%, create new VM
+                if (minCpu.compareTo(new Double("70")) > 0) {
+                    System.out.println("create new VM");
+
+                    try {
+                        VinciVM newvm = VMmanager.createVM();
+                        System.out.println("created VM : "+newvm.id());
+                        VMmanager.currentTargetVm = newvm.id();
+                    } catch (Exception e) {e.printStackTrace();}
+                }
+                // if the least utilized is less than 20% and the size is large enough (3), delete it, pick the rest randomly
+                else if (minCpu.compareTo(new Double("20")) < 0 && vmList.size() > 3) {
+                    System.out.println("VM" +VMmanager.currentTargetVm +" utlization is less than 20%, remove it from VM pool");
+
+                    VMmanager.deleteVM(vmList.get(VMmanager.currentTargetVm));
+                    VMmanager.currentTargetVm = new ArrayList<Integer>(vmList.keySet())
+                            .get(new Random().nextInt(vmList.keySet().size()));
+                }
+
+
+                // interval check
+                try {
+                    Thread.sleep(Constants.VM_MONITOR_CHECK_INTERVAL);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             }
         };
 

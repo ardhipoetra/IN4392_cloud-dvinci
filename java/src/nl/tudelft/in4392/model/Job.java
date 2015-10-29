@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import nl.tudelft.in4392.Constants;
 import org.apache.commons.io.FilenameUtils;
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IMOperation;
+import sun.reflect.ConstantPool;
 
 public class Job implements Serializable{
 
@@ -102,7 +104,7 @@ public class Job implements Serializable{
     public void addTask(Task t) {this.tasks.add(t);}
 
     public String getCommands() {
-        String cmd = "java -cp .:../lib/* nl.tudelft.vmlocal.LocalMain";
+        String cmd = "java -jar "+ Constants.LOCAL_ENGINE_JAR;
 
         cmd += " "+this.URI+" "+this.destfile;
 

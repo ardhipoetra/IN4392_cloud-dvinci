@@ -21,6 +21,10 @@ public class Task implements Serializable{
     public static final String TASK_SCALEY = "scaletoy";
     public static final String TASK_COLORSPACE = "colorspace";
 
+    public static final String TASK_BLUR = "blur";
+    public static final String TASK_ENCIPHER = "encipher";
+    public static final String TASK_SHARPEN = "sharpen";
+
     private ArrayList<String> params;
     public String action;
 

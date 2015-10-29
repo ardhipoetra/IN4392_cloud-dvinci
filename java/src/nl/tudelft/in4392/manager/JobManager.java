@@ -5,11 +5,15 @@ import nl.tudelft.in4392.Utility;
 import nl.tudelft.in4392.model.Job;
 import nl.tudelft.in4392.model.VinciVM;
 import org.opennebula.client.vm.VirtualMachine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by ardhipoetra on 10/9/15.
  */
 public class JobManager {
+
+    static Logger logger = LoggerFactory.getLogger(JobManager.class);
 
     public static int submitJobtoVM(final Job jj) {
 
@@ -17,6 +21,8 @@ public class JobManager {
 
         // find IP/hostname of vmTarget
         final String hname = vmTarget.hostname; //Constants.TEST_TARGET_SSH;
+
+        System.out.println("shoot to "+hname);
 
         Thread t = new Thread() {
             @Override

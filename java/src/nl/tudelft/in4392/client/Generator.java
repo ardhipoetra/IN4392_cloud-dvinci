@@ -67,7 +67,7 @@ public class Generator {
                     @Override
                     public void run() {
 
-                        Iterator<File> it = FileUtils.iterateFiles(new File("/home/cld1593/stockpic/"), null, false);
+                        Iterator<File> it = FileUtils.iterateFiles(new File("/home/cld1593/stock2/"), null, false);
 
                         while(it.hasNext()) {
                             String fname = "";
@@ -78,20 +78,26 @@ public class Generator {
 
 
                             Job jj = new Job("name"+numJobsRun, fname, md5user);
-                            jj.setDestPath(fname + "_" + md5user + "/" + numJobsRun);
+                            jj.setDestPath("/home/cld1593/stock2/user");
                             try {
 
                                 jj.id = new Random().nextInt() + numJobsRun;
 
-                                Task t = new Task(Task.TASK_ROTATE);
-                                t.addParam("90");
+                                Task trot = new Task(Task.TASK_ROTATE);
+                                trot.addParam("90");
+                                jj.addTask(trot);
 
-                                jj.addTask(t);
-                                jj.addTask(t);
-                                jj.addTask(t);
+                                Task tblur = new Task(Task.TASK_BLUR);
+                                tblur.addParam("0");
+                                tblur.addParam("8");
+                                jj.addTask(tblur);
+
+                                Task tblur2 = new Task(Task.TASK_SHARPEN);
+                                tblur2.addParam("4");
+                                tblur2.addParam("8");
+                                jj.addTask(tblur2);
 
                                 System.out.println("job id "+jj.id+" created");
-
                                 cdisrv.addJob(md5user,jj);
 
                             } catch (RemoteException e) {
@@ -99,8 +105,13 @@ public class Generator {
                             }
                             numJobsRun++;
                         }
-                        genJobs.cancel();
-                        genJobs.purge();
+
+                        if(numJobsRun == numJobs) {
+                            genJobs.cancel();
+                            genJobs.purge();
+                        }
+//                        genJobs.cancel();
+//                        genJobs.purge();
                     }
                 }, 0, Constants.INTERVAL_JOB);
             }
