@@ -229,6 +229,9 @@ public class VMmanager {
 
                         vm.mem = Double.parseDouble(sarray[0]);
                         vm.cpu = Double.parseDouble(sarray[1]);
+                        
+                        logger.info("util "+kv.getKey()+" "+vm.mem+" "+vm.cpu); //hedi
+                        
                     } catch (Exception e) {e.printStackTrace();};
                 }
 
