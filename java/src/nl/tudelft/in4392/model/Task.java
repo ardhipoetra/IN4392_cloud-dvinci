@@ -17,12 +17,16 @@ public class Task implements Serializable{
 
     public static final String TASK_RESIZE = "resize";
     public static final String TASK_ROTATE = "rotate";
+    public static final String TASK_CONVERT = "convert";
+    public static final String TASK_NAME = "name";
+    public static final String TASK_BORDER = "border";
     public static final String TASK_SCALEX = "scaletox";
     public static final String TASK_SCALEY = "scaletoy";
     public static final String TASK_COLORSPACE = "colorspace";
 
     public static final String TASK_BLUR = "blur";
     public static final String TASK_ENCIPHER = "encipher";
+    public static final String TASK_DECIPHER = "decipher";
     public static final String TASK_SHARPEN = "sharpen";
 
     private ArrayList<String> params;
