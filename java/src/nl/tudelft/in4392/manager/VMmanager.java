@@ -56,7 +56,6 @@ public class VMmanager {
 
         OneResponse rc = VirtualMachine.allocate(c, vmtemplate);
 
-        logger.info("data : "+length);
 
         if(rc.isError()) {
             logger.error("failed");
@@ -88,6 +87,7 @@ public class VMmanager {
             }
         }
 
+        logger.info("data : "+vm.getName());
         System.out.println("The new VM " + vm.getName() + " has status: " + vm.status() + ". Ready");
 
         return vm;
