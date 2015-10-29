@@ -17,19 +17,26 @@ public class JobManager {
 
     public static int submitJobtoVM(final Job jj) {
 
-        VinciVM vmTarget = VMmanager.getAvailableVM();
+        final VinciVM vmTarget = VMmanager.getAvailableVM();
 
         // find IP/hostname of vmTarget
         final String hname = vmTarget.hostname; //Constants.TEST_TARGET_SSH;
 
-        System.out.println("shoot to "+hname);
+        System.out.println("\t\t\t\t\t\tshoot to "+vmTarget.id()+"\n");
+
 
         Thread t = new Thread() {
             @Override
             public void run() {
 
+                jj.idVmTarget = vmTarget.id();
+
+                vmTarget.runningJobs++;
+
                 Utility.callSSH(hname, "cd "+Constants.START_WORKSPACE_VM+"; "+jj.getCommands());
                 jj.status = Job.JOB_FINISH;
+
+                vmTarget.runningJobs--;
 
                 JobManager.informJobFinish(jj);
             }
@@ -44,6 +51,8 @@ public class JobManager {
 
 
     public static void informJobFinish(final Job jj) {
+        jj.timeFinish = System.currentTimeMillis();
 
+        System.out.println("Job "+jj+" has finished in "+(jj.timeFinish - jj.timeStart));
     }
 }

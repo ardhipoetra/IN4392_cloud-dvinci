@@ -19,10 +19,7 @@ import sun.management.VMManagement;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
 import java.net.InetAddress;
@@ -37,6 +34,8 @@ public class VMmanager {
     static Logger logger = LoggerFactory.getLogger(VMmanager.class);
 
     static int currentTargetVm = -1;
+
+    static boolean creatingVMStatus = false;
 
     public static VinciVM createVM() throws Exception{
 
@@ -56,7 +55,7 @@ public class VMmanager {
 
         OneResponse rc = VirtualMachine.allocate(c, vmtemplate);
 
-        logger.info("data : "+length);
+        logger.info("data : " + length);
 
         if(rc.isError()) {
             logger.error("failed");
@@ -67,29 +66,15 @@ public class VMmanager {
         System.out.println("ok, ID " + newVMID + ".");
 
         VinciVM vm = new VinciVM(newVMID, c);
-
         rc = vm.info();
 
         if(rc.isError())
             throw new Exception( rc.getErrorMessage() );
 
         vm = VMmanager.parseXML(rc.getMessage());
+        vm.status = VinciVM.VM_OFF;
 
         System.out.println("The new VM " + vm.getName() + " has status: " + vm.status() + ". Now initialize");
-
-        InetAddress address = InetAddress.getByName(vm.hostname);
-        boolean runCheck = false;
-        while(true) {
-            if (address.isReachable(1000)) {
-                Runtime.getRuntime().exec("ssh " + vm.hostname + " sh /home/cld1593/log/util.sh " + vm.id());
-//                Utility.callSSH(vm.hostname, "sh /home/cld1593/log/util.sh " + vm.id());
-                System.out.println("initialization~");
-                break;
-            }
-        }
-
-        System.out.println("The new VM " + vm.getName() + " has status: " + vm.status() + ". Ready");
-
         return vm;
     }
 
@@ -183,18 +168,22 @@ public class VMmanager {
 
         VinciVM ret = new VinciVM(Integer.parseInt(eElement.getElementsByTagName("ID").item(0).getTextContent()),
                 c,eElement.getElementsByTagName("IP").item(0).getTextContent(),
-                0,
-                0);
+                Double.MAX_VALUE,
+                Double.MAX_VALUE);
 
-        System.out.println(s);
-        System.out.println(eElement.getElementsByTagName("HOSTNAME"));
-        System.out.println(eElement.getElementsByTagName("HOSTNAME").item(0).getTextContent());
-        System.out.println(eElement.getElementsByTagName("HOSTNAME").item(1).getTextContent());
+        try {
+            ret.setHostname(eElement.getElementsByTagName("HOSTNAME").item(1).getTextContent());
+            ret.status = VinciVM.VM_ON;
+        } catch (NullPointerException ne) {
+            ret.status = VinciVM.VM_OFF;
+        }
 
-        ret.setHostname(eElement.getElementsByTagName("HOSTNAME").item(1).getTextContent());
         ret.setXmlData(s);
 
-        vmList.put(ret.id, ret);
+        if(!vmList.containsKey(ret.id())) {
+            ret.bornTime = System.currentTimeMillis();
+            vmList.put(ret.id, ret);
+        }
 
         System.out.println("parsed : "+ret.id);
         return ret;
@@ -207,6 +196,7 @@ public class VMmanager {
 
                 Iterator<Map.Entry<Integer, VinciVM>> it = vmList.entrySet().iterator();
 
+                creatingVMStatus = false;
                 while(it.hasNext()) {
                     Map.Entry<Integer, VinciVM> kv = it.next();
 
@@ -220,17 +210,42 @@ public class VMmanager {
                         //read last line, split the mem and proc util, put into array
                         String lastLine = strLine;
 
-                        String[] sarray = strLine.split(" ", -1);
-
                         in.close();
 
+                        String[] sarray = strLine.split(" ");
                         VinciVM vm = kv.getValue();
+
+                        System.out.print("V" + vm.id() + ":" + vm.runningJobs + " ");
 
                         vm.mem = Double.parseDouble(sarray[0]);
                         vm.cpu = Double.parseDouble(sarray[1]);
-                    } catch (Exception e) {e.printStackTrace();};
-                }
+                    } catch (FileNotFoundException e) {
+                        System.out.println("file "+kv.getKey()+" not found, that means the util has not running");
+                        creatingVMStatus = true;
 
+                        try {
+                            // check new XML
+                            VinciVM errVm = VMmanager.parseXML(kv.getValue().info().getMessage());
+
+                            // if the status ON, send initialization
+                            if (errVm.status == VinciVM.VM_ON) {
+                                InetAddress address = InetAddress.getByName(errVm.hostname);
+                                boolean runCheck = false;
+
+                                while(true) {
+                                    if (address.isReachable(1000)) {
+                                        Runtime.getRuntime().exec("ssh " + errVm.hostname + " sh /home/cld1593/log/util.sh " + errVm.id());
+                                        System.out.println("initialization~");
+                                        break;
+                                    }
+                                }
+                            }
+
+                        } catch (Exception ex){}
+                    } catch (Exception e) { // let it go~
+                    }
+                }
+                    System.out.println();
 
                 Double minMem = Double.MAX_VALUE; int idMinMemVm = -1;
                 Double minCpu = Double.MAX_VALUE; int idMinCpuVm = -1;
@@ -254,7 +269,7 @@ public class VMmanager {
                 System.out.printf("MEM (%f) : %d | CPU (%f) : %d \n", minMem, idMinMemVm, minCpu, idMinCpuVm);
 
                 //if least utilized VM is less than 70%, create new VM
-                if (minCpu.compareTo(new Double("70")) > 0) {
+                if (minCpu.compareTo(new Double("70")) > 0 && !creatingVMStatus) {
                     System.out.println("create new VM");
 
                     try {
@@ -265,11 +280,18 @@ public class VMmanager {
                 }
                 // if the least utilized is less than 20% and the size is large enough (3), delete it, pick the rest randomly
                 else if (minCpu.compareTo(new Double("20")) < 0 && vmList.size() > 3) {
-                    System.out.println("VM" +VMmanager.currentTargetVm +" utlization is less than 20%, remove it from VM pool");
+                    VinciVM vmVictim = vmList.get(VMmanager.currentTargetVm);
 
-                    VMmanager.deleteVM(vmList.get(VMmanager.currentTargetVm));
-                    VMmanager.currentTargetVm = new ArrayList<Integer>(vmList.keySet())
-                            .get(new Random().nextInt(vmList.keySet().size()));
+                    if (System.currentTimeMillis() - vmVictim.bornTime > 1000 * Constants.VM_KILL_TIMEOUT) {
+                        System.out.println("VM" +VMmanager.currentTargetVm +" utlization is less than 20%, remove it from VM pool");
+
+                        VMmanager.deleteVM(vmVictim);
+                        VMmanager.currentTargetVm = new ArrayList<Integer>(vmList.keySet())
+                                .get(new Random().nextInt(vmList.keySet().size()));
+                    } else {
+                        System.out.println("VM" +VMmanager.currentTargetVm +" still fresh baby, not delete it "+(System.currentTimeMillis() - vmVictim.bornTime));
+                    }
+
                 }
 
 

@@ -12,25 +12,40 @@ public class VinciVM extends VirtualMachine implements Serializable{
 
     private static final long serialVersionUID = 8205049349060267905L;
 
+    public static final int VM_ON = 1;
+    public static final int VM_OFF = 0;
+    public static final int VM_UNKNOWN = -1;
+
+
     public int id;
     public String ip;
     public double mem;
     public double cpu;
+    public int status = VM_UNKNOWN;
+    public long bornTime = -1;
 
     public String xmlData;
     public String hostname;
+    public int runningJobs;
 
+    // from XML
     public VinciVM(int vmid, Client c, String vmip, double vmmem, double vmcpu) {
         super(vmid, c);
         this.id = vmid;
         this.ip = vmip;
         this.mem = vmmem;
         this.cpu = vmcpu;
+
+        if (bornTime == -1) bornTime = System.currentTimeMillis();
     }
 
+    // from createNew
     public VinciVM(int vmid, Client c) {
         super(vmid, c);
+        this.mem = Double.MAX_VALUE;
+        this.cpu = Double.MAX_VALUE;
 
+        bornTime = System.currentTimeMillis();
     }
 
 

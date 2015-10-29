@@ -25,11 +25,16 @@ public class Job implements Serializable{
     public String name;
     public String URI;
     public String uid;
+    public int idVmTarget;
+
+    public long timeStart;
+    public long timeFinish;
 
     private String filename;
     private String extension;
     private String exURI;
     private String destfile;
+
 
     public int status = -1;
 
@@ -41,6 +46,7 @@ public class Job implements Serializable{
         tasks = new ArrayList<Task>();
         this.uid = uid;
         this.status = JOB_CREATED;
+        timeStart = System.currentTimeMillis();
 	}
 
     public void setDestPath(String dpath) {
@@ -98,7 +104,7 @@ public class Job implements Serializable{
              st += "(T : "+t.action+")";
         }
 
-        return String.format("The job(%s) [%d] by %s: %s %s", name, status, uid, URI, st);
+        return String.format("The job(%s) in %d [%d] by %s: %s %s", name, idVmTarget,status, uid, URI, st);
     }
 
     public void addTask(Task t) {this.tasks.add(t);}
