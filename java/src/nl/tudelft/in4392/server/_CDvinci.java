@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
  */
 public interface _CDvinci extends Remote {
 
-    public Job addJob(String userID, Job j) throws  RemoteException;
+    public Job addJob(String userID, final Job j) throws  RemoteException;
 
 
 

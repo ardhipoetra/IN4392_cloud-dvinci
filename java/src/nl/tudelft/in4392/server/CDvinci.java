@@ -26,10 +26,12 @@ public class CDvinci extends UnicastRemoteObject implements _CDvinci {
         System.out.println("create vmlist");
         VMmanager.showAllVms();
         VMmanager.startVMmonitor();
+
+        JobManager.checkRunJob();
     }
 
     @Override
-    public Job addJob(String userID, Job j) throws RemoteException {
+    public Job addJob(String userID, final Job j) throws RemoteException {
         j.status = Job.JOB_WAITING;
 
         ArrayList<Job> jarlist;
@@ -42,7 +44,16 @@ public class CDvinci extends UnicastRemoteObject implements _CDvinci {
 
         jarlist.add(j);
 
-        JobManager.submitJobtoVM(j);
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                JobManager.submitJobtoVM(j);
+            }
+        };
+
+        t.start();
+
+
 
         System.out.printf("Retrieved job %s from %s\n", j, userID);
 

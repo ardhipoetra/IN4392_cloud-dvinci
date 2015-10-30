@@ -29,7 +29,6 @@ public class VMmanager {
     public static Client c;
 
     public static HashMap<Integer, VinciVM> vmList = new HashMap<Integer, VinciVM>();
-    static ArrayList<Double> memArr = new ArrayList<Double>();
 
     static Logger logger = LoggerFactory.getLogger(VMmanager.class);
 
@@ -55,7 +54,7 @@ public class VMmanager {
 
         OneResponse rc = VirtualMachine.allocate(c, vmtemplate);
 
-        logger.info("data : " + length);
+        //logger.info("data : " + length);
 
         if(rc.isError()) {
             logger.error("failed");
@@ -73,7 +72,7 @@ public class VMmanager {
 
         vm = VMmanager.parseXML(rc.getMessage());
         vm.status = VinciVM.VM_OFF;
-        logger.info("VM "+vm.getName()+" created"); //hedi
+        logger.info("VM "+vm.id()+" created"); //hedi
         System.out.println("The new VM " + vm.getName() + " has status: " + vm.status() + ". Now initialize");
         return vm;
     }
@@ -85,6 +84,7 @@ public class VMmanager {
     public static OneResponse deleteVM(VinciVM vm) {
         vmList.remove(vm.id());
         OneResponse or = vm.finalizeVM();
+	logger.info("VM " + vm.id() + " deleted"); //hedi
         return or;
     }
 
@@ -138,8 +138,17 @@ public class VMmanager {
     public static VinciVM getAvailableVM() {
 
         while(VMmanager.currentTargetVm < 0) {
+	}
+//            int numberOn = 0; int numberOff = 0;
+//            Iterator<Map.Entry<Integer, VinciVM>> it = vmList.entrySet().iterator();
+//            while (it.hasNext()) {
+//                Map.Entry<Integer, VinciVM> kv = it.next();
+//
+//                if(kv.getValue().status == VinciVM.VM_ON) numberOn++;
+//                else if(kv.getValue().status == VinciVM.VM_OFF) numberOff++;
+//            }
+//	         logger.info("ON:"+numberOn+" OFF:"+numberOff);
 
-        }
 
         return vmList.get(VMmanager.currentTargetVm);
     }
@@ -182,8 +191,9 @@ public class VMmanager {
 
         if(!vmList.containsKey(ret.id())) {
             ret.bornTime = System.currentTimeMillis();
-            vmList.put(ret.id, ret);
         }
+
+        vmList.put(ret.id, ret);
 
         System.out.println("parsed : "+ret.id);
         return ret;
@@ -197,6 +207,7 @@ public class VMmanager {
                 Iterator<Map.Entry<Integer, VinciVM>> it = vmList.entrySet().iterator();
 
                 creatingVMStatus = false;
+                int totalRunningJob = 0;
                 while(it.hasNext()) {
                     Map.Entry<Integer, VinciVM> kv = it.next();
 
@@ -219,8 +230,14 @@ public class VMmanager {
 
                         vm.mem = Double.parseDouble(sarray[0]);
                         vm.cpu = Double.parseDouble(sarray[1]);
+                        logger.info("VM_util " + kv.getKey() + " " + vm.mem + " " + vm.cpu); //hedi
+                        logger.info("V" + vm.id() + ":" + vm.runningJobs + " "); //hedii
+                        totalRunningJob += vm.runningJobs;
+
+
+
                     } catch (FileNotFoundException e) {
-                        System.out.println("file "+kv.getKey()+" not found, that means the util has not running");
+                        System.out.println("\nfile "+kv.getKey()+" not found, that means the util has not running");
                         creatingVMStatus = true;
 
                         try {
@@ -250,6 +267,8 @@ public class VMmanager {
                 Double minMem = Double.MAX_VALUE; int idMinMemVm = -1;
                 Double minCpu = Double.MAX_VALUE; int idMinCpuVm = -1;
 
+                int minRun = Integer.MAX_VALUE; int minRunId = -1;
+
                 Iterator<Map.Entry<Integer, VinciVM>> itCheck = vmList.entrySet().iterator();
                 while (itCheck.hasNext()) {
                     Map.Entry<Integer,VinciVM> e = itCheck.next();
@@ -262,12 +281,43 @@ public class VMmanager {
                         idMinCpuVm = e.getKey();
                         minCpu = e.getValue().cpu;
                     }
+
+                    if(minRun > e.getValue().runningJobs) {
+                        minRun = e.getValue().runningJobs;
+                        minRunId = e.getKey();
+                    }
                 }
 
-                VMmanager.currentTargetVm = idMinCpuVm;
+                int average = totalRunningJob/vmList.size();
 
-                System.out.printf("MEM (%f) : %d | CPU (%f) : %d \n", minMem, idMinMemVm, minCpu, idMinCpuVm);
+//                    System.out.println(average + " - "+minRun+" "+minRunId);
+                if(minRun > average)
+                    VMmanager.currentTargetVm = idMinCpuVm;
+                else
+                    VMmanager.currentTargetVm = minRunId;
 
+                System.out.printf("MEM (%f) : %d | CPU (%f) : %d | %d \n", minMem, idMinMemVm, minCpu, idMinCpuVm, VMmanager.currentTargetVm);
+
+
+                int numberOn = 0; int numberOff = 0;
+                StringBuilder sb = new StringBuilder();
+                Iterator<Map.Entry<Integer, VinciVM>> iter = vmList.entrySet().iterator();
+                while (iter.hasNext()) {
+                    Map.Entry<Integer, VinciVM> kva = iter.next();
+
+                    sb.append(kva.getKey());
+                    if(kva.getValue().status == VinciVM.VM_ON)
+                        numberOn++;
+                    else if(kva.getValue().status == VinciVM.VM_OFF) {
+                        numberOff++;
+                        sb.append('!');
+                    }
+                    sb.append(' ');
+                }
+                logger.info(sb.toString());
+                logger.info("ON:" + numberOn + " OFF:" + numberOff);
+
+//                logger.info("Total job running :" +totalRunningJob);
                 //if least utilized VM is less than 70%, create new VM
                 if (minCpu.compareTo(new Double("70")) > 0 && !creatingVMStatus) {
                     System.out.println("create new VM");
@@ -304,8 +354,6 @@ public class VMmanager {
             }
             }
         };
-
-
         thread.start();
     }
 }

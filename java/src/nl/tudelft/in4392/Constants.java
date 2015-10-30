@@ -25,5 +25,5 @@ public class Constants {
 
     public static final int VM_MONITOR_CHECK_INTERVAL = 500; // in ms
 
-    public static final int VM_KILL_TIMEOUT = 60; // in s
+    public static final int VM_KILL_TIMEOUT = 50; // in s
 }

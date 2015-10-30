@@ -1,0 +1,383 @@
+create vmlist
+parsed : 41343
+parsed : 41344
+parsed : 41345
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+ready.
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:0 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+Retrieved job The job(30-10-2015_user1md5hash_-667418883) in 0 [1] by user1md5hash: /home/cld1593/stock2/tes.jpg (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+Retrieved job The job(30-10-2015_user1md5hash_979855474) in 0 [1] by user1md5hash: /home/cld1593/stock2/file2961261953471.jpg (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+Retrieved job The job(30-10-2015_user1md5hash_1724112269) in 0 [1] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+V41345:0 V41343:3 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/tes.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/key /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/file2961261953471.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+res : 105
+
+Job The job(30-10-2015_user1md5hash_1724112269) in 41343 [9] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) has finished in 598
+V41345:0 V41343:2 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:2 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:2 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:2 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:2 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:2 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+Retrieved job The job(30-10-2015_user1md5hash_778121967) in 0 [1] by user1md5hash: /home/cld1593/stock2/tes.jpg (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+Retrieved job The job(30-10-2015_user1md5hash_-1740879941) in 0 [1] by user1md5hash: /home/cld1593/stock2/file2961261953471.jpg (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+Retrieved job The job(30-10-2015_user1md5hash_440810360) in 0 [1] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/tes.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/file2961261953471.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/key /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+V41345:0 V41343:5 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:5 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+res : 105
+
+Job The job(30-10-2015_user1md5hash_440810360) in 41343 [9] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) has finished in 1251
+V41345:0 V41343:4 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:4 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:4 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:4 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+Retrieved job The job(30-10-2015_user1md5hash_265405119) in 0 [1] by user1md5hash: /home/cld1593/stock2/tes.jpg (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+Retrieved job The job(30-10-2015_user1md5hash_-1055061092) in 0 [1] by user1md5hash: /home/cld1593/stock2/file2961261953471.jpg (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+Retrieved job The job(30-10-2015_user1md5hash_-300586546) in 0 [1] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/tes.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/key /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/file2961261953471.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+V41345:0 V41343:7 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:7 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:7 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+res : 105
+
+Job The job(30-10-2015_user1md5hash_-300586546) in 41343 [9] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) has finished in 1658
+V41345:0 V41343:6 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:6 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:6 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:6 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+Retrieved job The job(30-10-2015_user1md5hash_661938966) in 0 [1] by user1md5hash: /home/cld1593/stock2/tes.jpg (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+Retrieved job The job(30-10-2015_user1md5hash_-1719876368) in 0 [1] by user1md5hash: /home/cld1593/stock2/file2961261953471.jpg (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+Retrieved job The job(30-10-2015_user1md5hash_-649515924) in 0 [1] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/file2961261953471.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/tes.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/key /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+V41345:0 V41343:9 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:9 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:9 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+res : 105
+
+Job The job(30-10-2015_user1md5hash_-649515924) in 41343 [9] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) has finished in 1832
+V41345:0 V41343:8 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:8 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:8 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+Retrieved job The job(30-10-2015_user1md5hash_684891277) in 0 [1] by user1md5hash: /home/cld1593/stock2/tes.jpg (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+Retrieved job The job(30-10-2015_user1md5hash_1348625971) in 0 [1] by user1md5hash: /home/cld1593/stock2/file2961261953471.jpg (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+Retrieved job The job(30-10-2015_user1md5hash_1935493493) in 0 [1] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/file2961261953471.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/tes.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/key /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+V41345:0 V41343:11 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:11 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:11 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:11 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:11 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+res : 105
+
+Job The job(30-10-2015_user1md5hash_1935493493) in 41343 [9] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) has finished in 2593
+V41345:0 V41343:10 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 Retrieved job The job(30-10-2015_user1md5hash_2013278905) in 0 [1] by user1md5hash: /home/cld1593/stock2/tes.jpg (T : blur)(T : rotate) from user1md5hash
+V41343:10 						shoot to 41343
+
+V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+Retrieved job The job(30-10-2015_user1md5hash_2068153818) in 0 [1] by user1md5hash: /home/cld1593/stock2/file2961261953471.jpg (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+Retrieved job The job(30-10-2015_user1md5hash_-638973374) in 0 [1] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/tes.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/key /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/file2961261953471.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+V41345:0 V41343:13 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:13 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:13 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:13 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:13 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:13 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+res : 105
+
+Job The job(30-10-2015_user1md5hash_-638973374) in 41343 [9] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) has finished in 3027
+Retrieved job The job(30-10-2015_user1md5hash_-1943911909) in 0 [1] by user1md5hash: /home/cld1593/stock2/tes.jpg (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+Retrieved job The job(30-10-2015_user1md5hash_583263042) in 0 [1] by user1md5hash: /home/cld1593/stock2/file2961261953471.jpg (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+Retrieved job The job(30-10-2015_user1md5hash_-1065366920) in 0 [1] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/key /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/tes.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/file2961261953471.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+V41345:0 V41343:15 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:15 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:15 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:15 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:15 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:15 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+Retrieved job The job(30-10-2015_user1md5hash_1064821836) in 0 [1] by user1md5hash: /home/cld1593/stock2/tes.jpg (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+Retrieved job The job(30-10-2015_user1md5hash_115420946) in 0 [1] by user1md5hash: /home/cld1593/stock2/file2961261953471.jpg (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+Retrieved job The job(30-10-2015_user1md5hash_-921618669) in 0 [1] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) from user1md5hash
+						shoot to 41343
+
+V41345:0 V41343:18 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+res : 105
+
+Job The job(30-10-2015_user1md5hash_-1065366920) in 41343 [9] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) has finished in 3391
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/file2961261953471.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/tes.jpg /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+cd /home/cld1593/cloud-dvinci/java/out; java -jar /home/cld1593/Local_Engine/dist/local-engine.jar /home/cld1593/stock2/key /home/cld1593/user1md5hash_30-10-2015 -blur 0 50 -rotate 90
+V41345:0 V41343:17 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:17 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:17 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:17 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:17 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:17 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:17 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+res : 105
+
+Job The job(30-10-2015_user1md5hash_-921618669) in 41343 [9] by user1md5hash: /home/cld1593/stock2/key (T : blur)(T : rotate) has finished in 3652
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
+V41345:0 V41343:16 V41344:0 
+MEM (54.164800) : 41344 | CPU (0.400000) : 41343 
